@@ -24,6 +24,8 @@ public class SceneManager : MonoBehaviour {
 
     private GameplayData gameplayData;
 
+	private bool isStarted;
+
 	// Use this for initialization
 	void Start () {
         gameplayData = new GameplayData(1, 3);
@@ -50,11 +52,17 @@ public class SceneManager : MonoBehaviour {
 			buttonText.text = "NOT YET";
 		}
 
-        gameplayData.decreaseSecondLeft(Time.deltaTime);
-        this.secondText.text = gameplayData.getSecondLeft().ToString("0");
+		if (isStarted) {
+			gameplayData.decreaseSecondLeft (Time.deltaTime);
+			this.secondText.text = gameplayData.getSecondLeft ().ToString ("0");
 
-        if (gameplayData.getSecondLeft() <= 0.0f)
-            gameOver();
+			if (gameplayData.getSecondLeft () <= 0.0f)
+				gameOver ();
+		}
+	}
+
+	public void StartGame() {
+		isStarted = true;
 	}
 
     public void onWhozzClick() {    

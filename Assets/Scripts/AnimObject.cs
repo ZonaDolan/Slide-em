@@ -56,7 +56,7 @@ public class AnimObject : MonoBehaviour {
 		} else {
 			lerp += Time.deltaTime * 8f;
 
-			float scale = Mathfx.Berp (0.3f, 1f, lerp);
+			float scale = Mathfx.Clerp (1.5f, 1f, lerp);
 			rectTransform.localScale = new Vector3 (scale, scale, 1f);
 		}
 	}

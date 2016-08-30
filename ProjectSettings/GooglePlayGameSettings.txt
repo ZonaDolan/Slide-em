@@ -1,0 +1,10 @@
+lastUpgrade=00934
+proj.pluginVersion=0.9.34
+proj.AppId=21855600122
+and.BundleId=com.zonadolan.slideem
+proj.classDir=Assets
+proj.ConstantsClassName=GPGSIds
+and.ResourceData=%3c%3fxml+version%3d%221.0%22+encoding%3d%22utf-8%22%3f%3e%0a%3cresources%3e%0a++%3cstring+name%3d%22app_id%22%3e21855600122%3c%2fstring%3e%0a++%3cstring+name%3d%22package_name%22%3ecom.zonadolan.slideem%3c%2fstring%3e%0a++%3cstring+name%3d%22leaderboard_highscore%22%3eCggI-vvHtVEQAhAB%3c%2fstring%3e%0a%3c%2fresources%3e
+and.ClientId=
+proj.requireGPlus=false
+android.SetupDone=true

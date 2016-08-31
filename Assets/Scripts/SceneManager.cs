@@ -82,7 +82,7 @@ public class SceneManager : MonoBehaviour {
     }
 
     private void nextLevel() {
-        gameplayData.addScore(gameplayData.getUpperBound() * (long)gameplayData.getSecondLeft());
+        gameplayData.addScore(gameplayData.getUpperBound() * (long)((gameplayData.getSecondLeft() / 5) + 1));
         gameplayData.nextLevel();
 
         mainSlider.minValue = gameplayData.getLowerBound();

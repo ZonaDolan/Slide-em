@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 
 public class SceneManager : MonoBehaviour {
 
@@ -20,9 +20,15 @@ public class SceneManager : MonoBehaviour {
     public Text scoreText;
 	public AnimObject scoreTextAnim;
 
+    [Header("Game Over Stuff")]
+    public List<Text> removeTexts;
+    public List<Image> removeImage;
+    public Text finishedText;
+
 	public AudioSource coinSound;
 
     private GameplayData gameplayData;
+    private bool isGameOver = false;
 
 	// Use this for initialization
 	void Start () {
@@ -35,6 +41,9 @@ public class SceneManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (this.isGameOver)
+            return;
+
         this.leftText.text = mainSlider.value.ToString();
         this.rightText.text = gameplayData.getTarget().ToString();
         this.scoreText.text = gameplayData.getScore().ToString();
@@ -60,9 +69,11 @@ public class SceneManager : MonoBehaviour {
 
     public void onWhozzClick() {    
         // Indicator is on the center
-        if (mainSlider.value == gameplayData.getTarget()) {
+        if (!isGameOver && mainSlider.value == gameplayData.getTarget()) {
 			scoreTextAnim.Animate ();
             nextLevel();
+        } else if (isGameOver) {
+            Application.LoadLevel(Application.loadedLevel);
         }
     }
 
@@ -71,7 +82,7 @@ public class SceneManager : MonoBehaviour {
     }
 
     private void nextLevel() {
-        gameplayData.addScore(gameplayData.getUpperBound() * (long)gameplayData.getSecondLeft());
+        gameplayData.addScore(gameplayData.getUpperBound() * (long)((gameplayData.getSecondLeft() / 5) + 1));
         gameplayData.nextLevel();
 
         mainSlider.minValue = gameplayData.getLowerBound();
@@ -87,6 +98,19 @@ public class SceneManager : MonoBehaviour {
 
     private void gameOver() {
         // TODO implement game over
+        isGameOver = true;
+
+        for (int i = 0; i < removeTexts.Count; i++)
+            removeTexts[i].enabled = false;
+        for (int i = 0; i < removeImage.Count; i++)
+            removeImage[i].enabled = false;
+        mainSlider.enabled = false;
+
+        buttonBG.color = colors[1];
+        buttonText.text = "SLIDE AGAIN";
+
+        finishedText.enabled = true;
+
         Debug.logger.Log("Game Over");
     }
 }

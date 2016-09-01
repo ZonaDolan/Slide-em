@@ -47,11 +47,11 @@ public class PanelManager : MonoBehaviour {
 			sceneManager.StartGame ();
 			break;
 
-		case PanelType.GAMEOVER:
-			menuPanel.SetActive (false);
-			gamePanel.gameObject.SetActive (false);
-			gameOverPanel.SetActive (true);
-			break;
+//		case PanelType.GAMEOVER:
+//			menuPanel.SetActive (false);
+//			gamePanel.gameObject.SetActive (false);
+//			gameOverPanel.SetActive (true);
+//			break;
 		}
 	}
 }

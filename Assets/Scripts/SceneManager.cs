@@ -11,7 +11,7 @@ public class SceneManager : MonoBehaviour {
 	[Header("Button")]
 	public Image buttonBG;
 	public Text buttonText;
-	public Color[] colors;
+	public Sprite[] colors;
 
 	[Header("Text")]
     public Text leftText;
@@ -26,7 +26,12 @@ public class SceneManager : MonoBehaviour {
 //    public Text finishedText;
 	public PanelCustom gameOverPanel;
 
-	public AudioSource coinSound;
+    [Header("Sound")]
+    public AudioSource coinSound;
+    public AudioSource wrongSound;
+
+    [Header("Setting")]
+    public Setting setting;
 
     private GameplayData gameplayData;
     private bool isGameOver = false;
@@ -56,12 +61,12 @@ public class SceneManager : MonoBehaviour {
 		// update slider indicator
 		if (mainSlider.value == gameplayData.getTarget ()) {
 			slideIndicator.color = colors[1];
-			buttonBG.color = colors[1];
+			buttonBG.sprite = colors[1];
 			buttonText.text = "HIT ME!";
 		} else {
 //			slideIndicator.color = new Color (1f, 0.6f, 0f);
 			slideIndicator.color = colors[0];
-			buttonBG.color = colors[0];
+			buttonBG.sprite = colors[0];
 			buttonText.text = "NOT YET";
 		}
 
@@ -83,13 +88,26 @@ public class SceneManager : MonoBehaviour {
         if (!isGameOver && mainSlider.value == gameplayData.getTarget()) {
 			scoreTextAnim.Animate ();
             nextLevel();
-        } else if (isGameOver) {
+            return;
+        } else if (!isGameOver && mainSlider.value != gameplayData.getTarget()) {
+            gameplayData.decreaseSecondLeft(2.0f);
+            if (setting.soundActive()) {
+                wrongSound.Stop();
+                wrongSound.Play();
+            }
+            // TODO add vibrate here
+            return;
+        }
+
+        if (isGameOver) {
             Application.LoadLevel(Application.loadedLevel);
+            return;
         }
     }
 
     public void onValueSliderChange() {
-        coinSound.Play();
+        if (setting.soundActive())
+            coinSound.Play();
     }
 
     private void nextLevel() {

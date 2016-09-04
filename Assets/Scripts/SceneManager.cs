@@ -29,6 +29,9 @@ public class SceneManager : MonoBehaviour {
     public AudioSource coinSound;
     public AudioSource wrongSound;
 
+    [Header("Setting")]
+    public Setting setting;
+
     private GameplayData gameplayData;
     private bool isGameOver = false;
 
@@ -77,8 +80,10 @@ public class SceneManager : MonoBehaviour {
             return;
         } else if (!isGameOver && mainSlider.value != gameplayData.getTarget()) {
             gameplayData.decreaseSecondLeft(2.0f);
-            wrongSound.Stop();
-            wrongSound.Play();
+            if (setting.soundActive()) {
+                wrongSound.Stop();
+                wrongSound.Play();
+            }
             // TODO add vibrate here
             return;
         }
@@ -90,7 +95,8 @@ public class SceneManager : MonoBehaviour {
     }
 
     public void onValueSliderChange() {
-        coinSound.Play();
+        if (setting.soundActive())
+            coinSound.Play();
     }
 
     private void nextLevel() {

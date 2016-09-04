@@ -7,6 +7,7 @@ public class SceneManager : MonoBehaviour {
 	[Header("Slider Control")]
     public Slider mainSlider;
 	public Image slideIndicator;
+	public Sprite[] sliders;
 
 	[Header("Button")]
 	public Image buttonBG;
@@ -30,8 +31,10 @@ public class SceneManager : MonoBehaviour {
     public AudioSource coinSound;
     public AudioSource wrongSound;
 
-    [Header("Setting")]
-    public Setting setting;
+	[Header("Panel")]
+	public PanelManager panelManager;
+
+    private Setting setting;
 
     private GameplayData gameplayData;
     private bool isGameOver = false;
@@ -40,6 +43,8 @@ public class SceneManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		setting = GetComponent<Setting> ();
+
         Random.seed = (int)(System.DateTime.UtcNow.Subtract(new System.DateTime(1970, 1, 1))).TotalSeconds;
         gameplayData = new GameplayData(1, 3);
 
@@ -51,6 +56,15 @@ public class SceneManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		bool backPressed = Input.GetKeyDown (KeyCode.Escape);
+		if (backPressed) {
+			if (panelManager.panelType == PanelManager.PanelType.MENU) {
+				Application.Quit ();
+			} else {
+				Application.LoadLevel (Application.loadedLevel);
+			}
+		}
+
         if (this.isGameOver)
             return;
 
@@ -60,12 +74,12 @@ public class SceneManager : MonoBehaviour {
 
 		// update slider indicator
 		if (mainSlider.value == gameplayData.getTarget ()) {
-			slideIndicator.color = colors[1];
+			slideIndicator.sprite = sliders [1];
 			buttonBG.sprite = colors[1];
 			buttonText.text = "HIT ME!";
 		} else {
 //			slideIndicator.color = new Color (1f, 0.6f, 0f);
-			slideIndicator.color = colors[0];
+			slideIndicator.sprite = sliders[0];
 			buttonBG.sprite = colors[0];
 			buttonText.text = "NOT YET";
 		}
@@ -91,11 +105,14 @@ public class SceneManager : MonoBehaviour {
             return;
         } else if (!isGameOver && mainSlider.value != gameplayData.getTarget()) {
             gameplayData.decreaseSecondLeft(2.0f);
-            if (setting.soundActive()) {
+			if (setting.VibrateActive ()) {
+				Handheld.Vibrate ();
+			}
+
+			if (setting.SoundActive()) {
                 wrongSound.Stop();
                 wrongSound.Play();
             }
-            // TODO add vibrate here
             return;
         }
 
@@ -106,7 +123,7 @@ public class SceneManager : MonoBehaviour {
     }
 
     public void onValueSliderChange() {
-        if (setting.soundActive())
+		if (setting.SoundActive())
             coinSound.Play();
     }
 
@@ -135,11 +152,13 @@ public class SceneManager : MonoBehaviour {
             removeImage[i].enabled = false;
         mainSlider.enabled = false;
 
-        buttonBG.color = colors[1];
+		buttonBG.sprite = colors[1];
         buttonText.text = "SLIDE AGAIN";
 
 //        finishedText.enabled = true;
 		gameOverPanel.Show();
+
+		panelManager.panelType = PanelManager.PanelType.GAMEOVER;
 
         Debug.logger.Log("Game Over");
     }

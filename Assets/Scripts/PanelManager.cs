@@ -15,7 +15,7 @@ public class PanelManager : MonoBehaviour {
 		GAMEPLAY,
 		GAMEOVER
 	}
-	private PanelType panelType;
+	public PanelType panelType;
 
 
 	// Use this for initialization

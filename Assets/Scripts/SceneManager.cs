@@ -25,7 +25,9 @@ public class SceneManager : MonoBehaviour {
     public List<Image> removeImage;
     public Text finishedText;
 
-	public AudioSource coinSound;
+    [Header("Sound")]
+    public AudioSource coinSound;
+    public AudioSource wrongSound;
 
     private GameplayData gameplayData;
     private bool isGameOver = false;
@@ -72,8 +74,18 @@ public class SceneManager : MonoBehaviour {
         if (!isGameOver && mainSlider.value == gameplayData.getTarget()) {
 			scoreTextAnim.Animate ();
             nextLevel();
-        } else if (isGameOver) {
+            return;
+        } else if (!isGameOver && mainSlider.value != gameplayData.getTarget()) {
+            gameplayData.decreaseSecondLeft(2.0f);
+            wrongSound.Stop();
+            wrongSound.Play();
+            // TODO add vibrate here
+            return;
+        }
+
+        if (isGameOver) {
             Application.LoadLevel(Application.loadedLevel);
+            return;
         }
     }
 

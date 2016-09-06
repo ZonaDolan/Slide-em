@@ -27,8 +27,8 @@ public class PanelCustom : MonoBehaviour {
 	}
 
 	public void Show() {
-		lerp = 0f;
-		isShowing = true;
+		//lerp = 0f;
+		//isShowing = true;
 		gameObject.SetActive (true);
 	}
 }

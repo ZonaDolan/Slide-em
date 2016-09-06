@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SocialPlatforms;
 
 public class SceneManager : MonoBehaviour {
 
@@ -159,6 +160,14 @@ public class SceneManager : MonoBehaviour {
 		gameOverPanel.Show();
 
 		panelManager.panelType = PanelManager.PanelType.GAMEOVER;
+
+		Social.ReportScore(gameplayData.getScore(), "CggI-vvHtVEQAhAB", (bool success) => {
+			if(success) {
+				Debug.Log("Success");
+			} else {
+				Debug.Log("Failed to post");
+			}
+		});
 
         Debug.logger.Log("Game Over");
     }

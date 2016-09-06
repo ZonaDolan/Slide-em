@@ -10,6 +10,8 @@ public class PanelManager : MonoBehaviour {
 	[Header("Manager")]
 	public SceneManager sceneManager;
 
+	public ConnectionManager connectionManager;
+
 	public enum PanelType {
 		MENU,
 		GAMEPLAY,
@@ -53,5 +55,9 @@ public class PanelManager : MonoBehaviour {
 //			gameOverPanel.SetActive (true);
 //			break;
 		}
+	}
+
+	public void ShowLeaderboardPanel() {
+		connectionManager.ShowLeaderboard ();
 	}
 }

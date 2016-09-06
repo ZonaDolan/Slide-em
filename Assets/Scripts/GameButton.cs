@@ -21,4 +21,8 @@ public class GameButton : MonoBehaviour {
 	public void GoToMenuScene() {
 		panelManager.ChangePanel (PanelManager.PanelType.MENU);
 	}
+
+	public void ShowLeaderboard() {
+		panelManager.ShowLeaderboardPanel ();
+	}
 }

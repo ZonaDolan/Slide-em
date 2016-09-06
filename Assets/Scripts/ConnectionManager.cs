@@ -11,7 +11,8 @@ public class ConnectionManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		ActivateGPG ();
+		if(!Social.localUser.authenticated)
+			ActivateGPG ();
 	}
 	
 	// Update is called once per frame
@@ -39,5 +40,9 @@ public class ConnectionManager : MonoBehaviour {
 			Debug.Log("Social Failed");
 		});
 
+	}
+
+	public void ShowLeaderboard() {
+		Social.ShowLeaderboardUI ();
 	}
 }

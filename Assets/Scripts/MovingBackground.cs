@@ -14,7 +14,10 @@ public class MovingBackground : MonoBehaviour {
 		float posX = -Input.acceleration.x;
 		float posY = -Input.acceleration.y;
 
-		rectTransform.anchoredPosition = new Vector2 (posX * 40f, posY * 40f);
+		Vector2 dest = new Vector2 (posX * 40f, posY * 40f);
+
+		rectTransform.anchoredPosition = Vector2.MoveTowards (rectTransform.anchoredPosition, dest, 1.5f);
+//		rectTransform.anchoredPosition = new Vector2 (posX * 40f, posY * 40f);
 	}
 
 }
